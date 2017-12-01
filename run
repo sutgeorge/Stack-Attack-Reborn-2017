@@ -1,0 +1,8 @@
+#!/bin/sh
+echo "Compiling..."
+make
+echo "Done!"
+./StackAttack
+echo "Removing executable..."
+rm StackAttack
+echo "Executable removed."
