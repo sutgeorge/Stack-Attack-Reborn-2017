@@ -1,6 +1,5 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <SDL2/SDL.h>
+#include "main.h"
+#include "player.h"
 #define WINDOW_WIDTH 768
 #define WINDOW_HEIGHT 512
 
@@ -24,6 +23,10 @@ int main() {
 		return 0;
 	}
 
+	struct Player player;
+	init_player(&player, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 
+			   "res/builder_sprite_sheet.png", 5, 1, renderer);
+
 	SDL_Event event;
 	while(running) {
 		while(SDL_PollEvent(&event)) {
@@ -33,6 +36,8 @@ int main() {
 		}
 
 		SDL_RenderClear(renderer);
+		SDL_RenderCopy(renderer, player.sprite_sheet, 
+					   &player.frame, &player.dstrect);
 		SDL_RenderPresent(renderer);
 	}
 
