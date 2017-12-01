@@ -29,6 +29,25 @@ static bool __init(SDL_Window **window, SDL_Renderer **renderer, struct Player *
 	return true;
 }
 
+static void __handle_input(struct Player *player) {
+	const Uint8 *key_state = SDL_GetKeyboardState(NULL);
+	
+	/*   Jumping not implemented yet
+	if(key_state[SDL_SCANCODE_W]) {
+
+	}
+	*/
+
+	if(key_state[SDL_SCANCODE_A]) {
+		player->dstrect.x--;
+	}
+
+	if(key_state[SDL_SCANCODE_D]) {
+		player->dstrect.x++;
+	}
+
+}
+
 static void __render(SDL_Renderer *renderer, struct Player *player) {
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, player->sprite_sheet, 
@@ -58,7 +77,7 @@ int main() {
 				running = false;
 			}
 		}
-
+		__handle_input(&player);
 		__render(renderer, &player);
 	}
 
