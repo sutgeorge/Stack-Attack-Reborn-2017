@@ -4,4 +4,6 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#define WINDOW_WIDTH 768
+#define WINDOW_HEIGHT 512
 #endif

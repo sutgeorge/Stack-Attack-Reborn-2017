@@ -8,7 +8,7 @@ struct Player {
 	SDL_Rect frame, dstrect;
 };
 
-void init_player(struct Player* player, int x, int y, char *texture_path, 
+void init_player(struct Player* player, char *texture_path, 
 				 int frames_x, int frames_y, SDL_Renderer *renderer);
 
 #endif

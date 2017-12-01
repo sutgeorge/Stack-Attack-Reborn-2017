@@ -1,7 +1,5 @@
 #include "main.h"
 #include "player.h"
-#define WINDOW_WIDTH 768
-#define WINDOW_HEIGHT 512
 
 static bool __init(SDL_Window **window, SDL_Renderer **renderer, struct Player *player) {
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -27,8 +25,7 @@ static bool __init(SDL_Window **window, SDL_Renderer **renderer, struct Player *
 
 	SDL_SetRenderDrawColor(*renderer, 68, 202, 255, 0);
 
-	init_player(player, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 
-			   "res/builder_sprite_sheet.png", 5, 1, *renderer);
+	init_player(player, "res/builder_sprite_sheet.png", 5, 1, *renderer);
 	return true;
 }
 
