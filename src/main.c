@@ -29,23 +29,24 @@ static bool __init(SDL_Window **window, SDL_Renderer **renderer, struct Player *
 	return true;
 }
 
-static void __handle_input(struct Player *player) {
+static void __handle_input(struct Player *player, Uint32 *last_update_time) {
 	const Uint8 *key_state = SDL_GetKeyboardState(NULL);
 	
 	/*   Jumping not implemented yet
 	if(key_state[SDL_SCANCODE_W]) {
-
+		
 	}
 	*/
 
-	if(key_state[SDL_SCANCODE_A]) {
-		player->dstrect.x--;
+	if(key_state[SDL_SCANCODE_A] && SDL_GetTicks() - *last_update_time > 1000/FPS) {
+		player->dstrect.x -= PLAYER_SPEED;
+		*last_update_time = SDL_GetTicks();
 	}
 
-	if(key_state[SDL_SCANCODE_D]) {
-		player->dstrect.x++;
+	if(key_state[SDL_SCANCODE_D] && SDL_GetTicks() - *last_update_time > 1000/FPS) {
+		player->dstrect.x += PLAYER_SPEED;
+		*last_update_time = SDL_GetTicks();
 	}
-
 }
 
 static void __render(SDL_Renderer *renderer, struct Player *player) {
@@ -69,15 +70,17 @@ int main() {
 		return 0;
 
 	bool running = true;
-
+	Uint32 input_update_time = SDL_GetTicks();
 	SDL_Event event;
+
 	while(running) {		
 		while(SDL_PollEvent(&event)) {
 			if(event.type == SDL_QUIT) {
 				running = false;
 			}
 		}
-		__handle_input(&player);
+
+		__handle_input(&player, &input_update_time);
 		__render(renderer, &player);
 	}
 
