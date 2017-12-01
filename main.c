@@ -8,7 +8,9 @@ int main() {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_Window* window = SDL_CreateWindow("Stack Attack Reborn",
 										  0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+	
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
+	SDL_SetRenderDrawColor(renderer, 68, 202, 255, 0);
 
 	bool running = true;
 
