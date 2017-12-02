@@ -25,12 +25,11 @@ static bool __init(SDL_Window **window, SDL_Renderer **renderer, struct Player *
 
 	SDL_SetRenderDrawColor(*renderer, 68, 202, 255, 0);
 
-	init_player(player, "res/builder_sprite_sheet.png", 5, 1, *renderer);
+	init_player(player, "res/builder_sprite_sheet.png", 2, 3, *renderer);
 	return true;
 }
 
 static void __handle_input(struct Player *player, bool *loop) {
-	
 	const Uint8 *key_state = SDL_GetKeyboardState(NULL);
 	SDL_Event event;
 
