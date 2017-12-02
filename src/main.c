@@ -29,23 +29,45 @@ static bool __init(SDL_Window **window, SDL_Renderer **renderer, struct Player *
 	return true;
 }
 
-static void __handle_input(struct Player *player, Uint32 *last_update_time) {
-	const Uint8 *key_state = SDL_GetKeyboardState(NULL);
+static void __handle_input(struct Player *player, Uint32 *l_upd_time_hrz, 
+	Uint32 *l_upd_time_vrt, Uint32 *l_upd_time_jmp, bool *jumping, bool *loop) {
 	
-	/*   Jumping not implemented yet
-	if(key_state[SDL_SCANCODE_W]) {
-		
-	}
-	*/
+	const Uint8 *key_state = SDL_GetKeyboardState(NULL);
+	SDL_Event event;
 
-	if(key_state[SDL_SCANCODE_A] && SDL_GetTicks() - *last_update_time > 1000/FPS) {
-		player->dstrect.x -= PLAYER_SPEED;
-		*last_update_time = SDL_GetTicks();
+	while(SDL_PollEvent(&event)) {
+		if(event.type == SDL_QUIT) {
+			*loop = false;
+		}
+	}
+	
+	if(SDL_GetTicks() - *l_upd_time_jmp > 500 && key_state[SDL_SCANCODE_W]) {
+		*jumping = true;
+		*l_upd_time_jmp = SDL_GetTicks();
 	}
 
-	if(key_state[SDL_SCANCODE_D] && SDL_GetTicks() - *last_update_time > 1000/FPS) {
-		player->dstrect.x += PLAYER_SPEED;
-		*last_update_time = SDL_GetTicks();
+	if(*jumping) {
+		if(player->dstrect.y + player->frame.h > WINDOW_HEIGHT) {
+			player->dstrect.y = WINDOW_HEIGHT - player->frame.h;
+			player->jmp_vel = JMP_VEL;
+			*jumping = false;
+		}
+
+		if(SDL_GetTicks() - *l_upd_time_vrt > 1000/FPS) {
+			player->dstrect.y -= player->jmp_vel;
+			player->jmp_vel -= 1;
+			*l_upd_time_vrt = SDL_GetTicks();
+		}
+	}
+
+	if(key_state[SDL_SCANCODE_A] && SDL_GetTicks() - *l_upd_time_hrz > 1000/FPS) {
+		player->dstrect.x -= player->velocity;
+		*l_upd_time_hrz = SDL_GetTicks();
+	}
+
+	if(key_state[SDL_SCANCODE_D] && SDL_GetTicks() - *l_upd_time_hrz > 1000/FPS) {
+		player->dstrect.x += player->velocity;
+		*l_upd_time_hrz = SDL_GetTicks();
 	}
 }
 
@@ -69,18 +91,13 @@ int main() {
 	if(!__init(&window, &renderer, &player))
 		return 0;
 
-	bool running = true;
-	Uint32 input_update_time = SDL_GetTicks();
-	SDL_Event event;
+	bool running = true, jumping = false;
+	Uint32 input_upd_time_hrz, input_upd_time_vrt, input_upd_time_jmp;
+	input_upd_time_vrt = input_upd_time_hrz = input_upd_time_jmp = SDL_GetTicks();
 
 	while(running) {		
-		while(SDL_PollEvent(&event)) {
-			if(event.type == SDL_QUIT) {
-				running = false;
-			}
-		}
-
-		__handle_input(&player, &input_update_time);
+		__handle_input(&player, &input_upd_time_hrz, &input_upd_time_vrt,
+			&input_upd_time_jmp, &jumping, &running);
 		__render(renderer, &player);
 	}
 
