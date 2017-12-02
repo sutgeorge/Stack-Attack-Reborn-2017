@@ -58,20 +58,27 @@ static void __handle_input(struct Player *player, bool *loop) {
 		}
 	}
 
-	if(key_state[SDL_SCANCODE_A] && SDL_GetTicks() - player->l_upd_time_hrz > 1000/UPD) {
-		player->dstrect.x -= player->velocity;
-		player->l_upd_time_hrz = SDL_GetTicks();
-	}
-
-	if(key_state[SDL_SCANCODE_D] && SDL_GetTicks() - player->l_upd_time_hrz > 1000/UPD) {
-		player->dstrect.x += player->velocity;
-		player->l_upd_time_hrz = SDL_GetTicks();
+	if(key_state[SDL_SCANCODE_A]) {
+		if(SDL_GetTicks() - player->l_upd_time_hrz > 1000/UPD) {
+			player->dstrect.x -= player->velocity;
+			player->l_upd_time_hrz = SDL_GetTicks();
+			player->animate = animate_left;
+		}
+	} else if(key_state[SDL_SCANCODE_D]) {
+		if(SDL_GetTicks() - player->l_upd_time_hrz > 1000/UPD) {
+			player->dstrect.x += player->velocity;
+			player->l_upd_time_hrz = SDL_GetTicks();
+			player->animate = animate_right;
+		}
+	} else {
+		player->animate = stand;
 	}
 }
 
 static void __render(SDL_Renderer *renderer, struct Player *player, Uint32 *last_upd_time) {
 	if(SDL_GetTicks() - *last_upd_time > 1000/FPS) {
 		SDL_RenderClear(renderer);
+		player->animate(player);
 		SDL_RenderCopy(renderer, player->sprite_sheet, 
 						   &player->frame, &player->dstrect);
 		SDL_RenderPresent(renderer);

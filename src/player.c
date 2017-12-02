@@ -23,4 +23,29 @@ void init_player(struct Player* player, SDL_Renderer *renderer) {
 	player->l_upd_time_vrt = 
 	player->l_upd_time_jmp = SDL_GetTicks();
 	player->jumping = false;
+
+	player->animate = stand;
+}
+
+void animate_left(struct Player *self) {
+	if(SDL_GetTicks() - self->l_upd_time_anim_l > 200) {
+		self->frame_l = (self->frame_l ? 0 : 1);
+		self->frame.x = self->frame.w * self->frame_l;
+		self->frame.y = 0;
+		self->l_upd_time_anim_l = SDL_GetTicks();
+	}
+}
+
+void animate_right(struct Player *self) {
+	if(SDL_GetTicks() - self->l_upd_time_anim_r > 200) {
+		self->frame_r = (self->frame_r ? 0 : 1);
+		self->frame.x = self->frame.w * self->frame_r;
+		self->frame.y = self->frame.h;
+		self->l_upd_time_anim_r = SDL_GetTicks();
+	}
+}
+
+void stand(struct Player *self) {
+	self->frame.x = 0;
+	self->frame.y = self->frame.h * 2;
 }

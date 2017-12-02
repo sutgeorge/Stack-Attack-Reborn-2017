@@ -8,9 +8,19 @@ struct Player {
 	bool jumping;
 	Uint32 l_upd_time_hrz, l_upd_time_vrt, l_upd_time_jmp, 
 		   l_upd_time_anim_l, l_upd_time_anim_r;
-	int sheet_w, sheet_h, num_frames_vert, num_frames_horz, velocity, jmp_vel;
+	int sheet_w, sheet_h, 
+		num_frames_vert, num_frames_horz, 
+		velocity, jmp_vel,
+		frame_l, frame_r;
+	void (*animate)(struct Player *self);
 };
 
 void init_player(struct Player *player, SDL_Renderer *renderer);
+
+void animate_left(struct Player *self);
+
+void animate_right(struct Player *self);
+
+void stand(struct Player *self);
 
 #endif
