@@ -8,5 +8,6 @@
 #define WINDOW_HEIGHT 512
 #define VELOCITY 7
 #define JMP_VEL VELOCITY * 1.75
-#define FPS 60
+#define UPD 60
+#define FPS 120
 #endif

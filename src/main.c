@@ -52,29 +52,32 @@ static void __handle_input(struct Player *player, bool *loop) {
 			player->jumping = false;
 		}
 
-		if(SDL_GetTicks() - player->l_upd_time_vrt > 1000/FPS) {
+		if(SDL_GetTicks() - player->l_upd_time_vrt > 1000/UPD) {
 			player->dstrect.y -= player->jmp_vel;
 			player->jmp_vel -= 1;
 			player->l_upd_time_vrt = SDL_GetTicks();
 		}
 	}
 
-	if(key_state[SDL_SCANCODE_A] && SDL_GetTicks() - player->l_upd_time_hrz > 1000/FPS) {
+	if(key_state[SDL_SCANCODE_A] && SDL_GetTicks() - player->l_upd_time_hrz > 1000/UPD) {
 		player->dstrect.x -= player->velocity;
 		player->l_upd_time_hrz = SDL_GetTicks();
 	}
 
-	if(key_state[SDL_SCANCODE_D] && SDL_GetTicks() - player->l_upd_time_hrz > 1000/FPS) {
+	if(key_state[SDL_SCANCODE_D] && SDL_GetTicks() - player->l_upd_time_hrz > 1000/UPD) {
 		player->dstrect.x += player->velocity;
 		player->l_upd_time_hrz = SDL_GetTicks();
 	}
 }
 
-static void __render(SDL_Renderer *renderer, struct Player *player) {
-	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, player->sprite_sheet, 
-					   &player->frame, &player->dstrect);
-	SDL_RenderPresent(renderer);
+static void __render(SDL_Renderer *renderer, struct Player *player, Uint32 *last_upd_time) {
+	if(SDL_GetTicks() - *last_upd_time > 1000/FPS) {
+		SDL_RenderClear(renderer);
+		SDL_RenderCopy(renderer, player->sprite_sheet, 
+						   &player->frame, &player->dstrect);
+		SDL_RenderPresent(renderer);
+		*last_upd_time = SDL_GetTicks();
+	}
 }
 
 static void __exit(SDL_Window *window) {
@@ -85,16 +88,17 @@ static void __exit(SDL_Window *window) {
 int main() {
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
+	Uint32 frame_rate_upd_time = SDL_GetTicks();  
 	struct Player player;
 
 	if(!__init(&window, &renderer, &player))
 		return 0;
 
 	bool running = true;
-	
+
 	while(running) {		
 		__handle_input(&player, &running);
-		__render(renderer, &player);
+		__render(renderer, &player, &frame_rate_upd_time);
 	}
 
 	__exit(window);
