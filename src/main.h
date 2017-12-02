@@ -6,6 +6,7 @@
 #include <SDL2/SDL_image.h>
 #define WINDOW_WIDTH 768
 #define WINDOW_HEIGHT 512
-#define PLAYER_SPEED 3
+#define VELOCITY 7
+#define JMP_VEL VELOCITY * 1.75
 #define FPS 60
 #endif

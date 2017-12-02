@@ -16,4 +16,7 @@ void init_player(struct Player* player, char *texture_path,
 	player->dstrect.y = WINDOW_HEIGHT - player->frame.h; 
 	player->dstrect.w = player->frame.w;
 	player->dstrect.h = player->frame.h;
+
+	player->velocity = VELOCITY;
+	player->jmp_vel = JMP_VEL;
 }

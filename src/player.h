@@ -4,7 +4,9 @@
 
 struct Player {
 	SDL_Texture *sprite_sheet;
-	int sheet_w, sheet_h, num_frames_vert, num_frames_horz;
+	int sheet_w, sheet_h, 
+	num_frames_vert, num_frames_horz, 
+	velocity, jmp_vel;
 	SDL_Rect frame, dstrect;
 };
 
