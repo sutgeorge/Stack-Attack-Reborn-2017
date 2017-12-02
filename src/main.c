@@ -25,7 +25,7 @@ static bool __init(SDL_Window **window, SDL_Renderer **renderer, struct Player *
 
 	SDL_SetRenderDrawColor(*renderer, 68, 202, 255, 0);
 
-	init_player(player, "res/builder_sprite_sheet.png", 2, 3, *renderer);
+	init_player(player, *renderer);
 	return true;
 }
 
