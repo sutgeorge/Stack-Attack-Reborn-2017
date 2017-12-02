@@ -19,4 +19,8 @@ void init_player(struct Player* player, char *texture_path,
 
 	player->velocity = VELOCITY;
 	player->jmp_vel = JMP_VEL;
+	player->l_upd_time_hrz = 
+	player->l_upd_time_vrt = 
+	player->l_upd_time_jmp = SDL_GetTicks();
+	player->jumping = false;
 }
