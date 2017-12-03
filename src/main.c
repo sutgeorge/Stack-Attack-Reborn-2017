@@ -1,9 +1,11 @@
 #include "main.h"
 #include "player.h"
 #include "crane.h"
+#include "block.h"
 
 static bool __init(SDL_Window **window, SDL_Renderer **renderer, 
-	               struct Player *player, struct Crane *crane) {
+	               struct Player *player, struct Crane *crane,
+	               struct Block *block) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_DisplayMode dm;
 	SDL_GetCurrentDisplayMode(0, &dm);
@@ -29,6 +31,7 @@ static bool __init(SDL_Window **window, SDL_Renderer **renderer,
 
 	init_player(player, *renderer);
 	init_crane(crane, *renderer);
+	init_block(block, WINDOW_WIDTH / 4, WINDOW_HEIGHT - 64, *renderer);
 	return true;
 }
 
@@ -79,12 +82,14 @@ static void __handle_input(struct Player *player, bool *loop) {
 }
 
 static void __render(SDL_Renderer *renderer, struct Player *player, 
-	                 struct Crane *crane, Uint32 *last_upd_time) {
+	                 struct Crane *crane, struct Block *block,
+	                 Uint32 *last_upd_time) {
 	if(SDL_GetTicks() - *last_upd_time > 1000/FPS) {
 		SDL_RenderClear(renderer);
 		draw_player(player);
 		draw_pipe(renderer);
 		draw_crane(crane);
+		draw_block(block);
 		SDL_RenderPresent(renderer);
 		*last_upd_time = SDL_GetTicks();
 	}
@@ -101,15 +106,17 @@ int main() {
 	Uint32 frame_rate_upd_time = SDL_GetTicks();  
 	struct Player player;
 	struct Crane crane;
-	
-	if(!__init(&window, &renderer, &player, &crane))
+	struct Block block;
+
+	if(!__init(&window, &renderer, &player, &crane, &block))
 		return 0;
 	
 	bool running = true;
 	
-	while(running) {		
+	while(running) {	
 		__handle_input(&player, &running);
-		__render(renderer, &player, &crane, &frame_rate_upd_time);
+		player_block_collision(&player, &block);	
+		__render(renderer, &player, &crane, &block, &frame_rate_upd_time);
 	}
 	
 	__exit(window);

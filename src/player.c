@@ -35,6 +35,30 @@ void draw_player(struct Player *player) {
 	               &player->frame, &player->dstrect);
 }
 
+void player_block_collision(struct Player *player, struct Block *block) {
+	if(player->dstrect.y + player->dstrect.h >= block->dstrect.y &&
+	   player->dstrect.y + player->dstrect.h <= block->dstrect.y + block->dstrect.h) {
+		if(player->dstrect.x + player->dstrect.w >= block->dstrect.x &&
+		   player->dstrect.x + player->dstrect.w < block->dstrect.x + block->dstrect.w) {
+			block->dstrect.x++;
+		}
+				
+		if(player->dstrect.x <= block->dstrect.x + block->dstrect.w &&
+		   player->dstrect.x > block->dstrect.x) {
+			block->dstrect.x--;
+		}
+	}
+	/*
+	if(player->dstrect.y + player->dstrect.h >= block->dstrect.y &&
+	   player->dstrect.y + player->dstrect.h < block->dstrect.y)
+		//top
+	
+	if(player->dstrect.y <= block->dstrect.y + block->dstrect.h &&
+	   player->dstrect.y > block->dstrect.y)
+		//bottom
+	*/
+}
+
 void animate_left(struct Player *self) {
 	if(SDL_GetTicks() - self->l_upd_time_anim_l > 200) {
 		self->frame_l = (self->frame_l ? 0 : 1);
