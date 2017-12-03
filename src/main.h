@@ -10,4 +10,5 @@
 #define JMP_VEL VELOCITY * 1.75
 #define UPD 60
 #define FPS 120
+#define DEFAULT_DRAW_COLOR 68, 202, 255, 0
 #endif

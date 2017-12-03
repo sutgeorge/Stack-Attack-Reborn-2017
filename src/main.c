@@ -1,5 +1,6 @@
 #include "main.h"
 #include "player.h"
+#include "crane.h"
 
 static bool __init(SDL_Window **window, SDL_Renderer **renderer, struct Player *player) {
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -23,7 +24,7 @@ static bool __init(SDL_Window **window, SDL_Renderer **renderer, struct Player *
 		return false;
 	}
 
-	SDL_SetRenderDrawColor(*renderer, 68, 202, 255, 0);
+	SDL_SetRenderDrawColor(*renderer, DEFAULT_DRAW_COLOR);
 
 	init_player(player, *renderer);
 	return true;
@@ -79,6 +80,7 @@ static void __render(SDL_Renderer *renderer, struct Player *player, Uint32 *last
 	if(SDL_GetTicks() - *last_upd_time > 1000/FPS) {
 		SDL_RenderClear(renderer);
 		player->animate(player);
+		draw_pipe(renderer);
 		SDL_RenderCopy(renderer, player->sprite_sheet, 
 						   &player->frame, &player->dstrect);
 		SDL_RenderPresent(renderer);
