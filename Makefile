@@ -1,4 +1,4 @@
-OBJS = src/main.c src/player.c src/crane.c
+OBJS = src/main.c src/player.c src/crane.c src/block.c
 
 CC = gcc
 
