@@ -1,10 +1,10 @@
 #include "player.h"
 
-void init_player(struct Player* player, SDL_Renderer **renderer) {
+void init_player(struct Player* player, SDL_Renderer *renderer) {
 	int frames_x = 2, frames_y = 3, sheet_w, sheet_h;
 	
 	player->renderer = renderer;
-	player->sprite_sheet = IMG_LoadTexture(*renderer, "res/builder_sprite_sheet.png");
+	player->sprite_sheet = IMG_LoadTexture(renderer, "res/builder_sprite_sheet.png");
 	SDL_QueryTexture(player->sprite_sheet, NULL, NULL, &sheet_w, &sheet_h);	
 	player->num_frames_horz = frames_x;
 	player->num_frames_vert = frames_y;
@@ -31,7 +31,7 @@ void init_player(struct Player* player, SDL_Renderer **renderer) {
 
 void draw_player(struct Player *player) {
 	player->animate(player);
-	SDL_RenderCopy(*(player->renderer), player->sprite_sheet, 
+	SDL_RenderCopy(player->renderer, player->sprite_sheet, 
 	               &player->frame, &player->dstrect);
 }
 

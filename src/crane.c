@@ -1,10 +1,10 @@
 #include "crane.h"
 
-void init_crane(struct Crane *crane, SDL_Renderer **renderer) {
+void init_crane(struct Crane *crane, SDL_Renderer *renderer) {
 	int texture_w, texture_h;
 
 	crane->renderer = renderer;
-	crane->texture = IMG_LoadTexture(*renderer, "res/crane.png");
+	crane->texture = IMG_LoadTexture(renderer, "res/crane.png");
 	SDL_QueryTexture(crane->texture, NULL, NULL, &texture_w, &texture_h);	 
 
 	crane->dstrect.x = 0;
@@ -21,4 +21,8 @@ void draw_pipe(SDL_Renderer *renderer) {
 		SDL_RenderDrawLine(renderer, 0, WINDOW_HEIGHT / 15 + i, WINDOW_WIDTH, WINDOW_HEIGHT / 15 + i);
 	}
 	SDL_SetRenderDrawColor(renderer, DEFAULT_DRAW_COLOR);
+}
+
+void draw_crane(struct Crane *crane) {
+	SDL_RenderCopy(crane->renderer, crane->texture, NULL, &crane->dstrect);
 }

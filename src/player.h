@@ -5,7 +5,7 @@
 struct Player {
 	SDL_Texture *sprite_sheet;
 	SDL_Rect frame, dstrect;
-	SDL_Renderer **renderer;
+	SDL_Renderer *renderer;
 	bool jumping;
 	Uint32 l_upd_time_hrz, l_upd_time_vrt, l_upd_time_jmp, 
 	       l_upd_time_anim_l, l_upd_time_anim_r;
@@ -15,7 +15,7 @@ struct Player {
 	void (*animate)(struct Player *self);
 };
 
-void init_player(struct Player *player, SDL_Renderer **renderer);
+void init_player(struct Player *player, SDL_Renderer *renderer);
 
 void draw_player(struct Player *player);
 
