@@ -1,9 +1,10 @@
 #include "crane.h"
 
-void init_crane(struct Crane *crane, SDL_Renderer *renderer) {
+void init_crane(struct Crane *crane, SDL_Renderer **renderer) {
 	int texture_w, texture_h;
 
-	crane->texture = IMG_LoadTexture(renderer, "res/crane.png");
+	crane->renderer = renderer;
+	crane->texture = IMG_LoadTexture(*renderer, "res/crane.png");
 	SDL_QueryTexture(crane->texture, NULL, NULL, &texture_w, &texture_h);	 
 
 	crane->dstrect.x = 0;
