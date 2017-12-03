@@ -14,7 +14,10 @@ void init_crane(struct Crane *crane, SDL_Renderer *renderer) {
 
 void draw_pipe(SDL_Renderer *renderer) {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-	SDL_RenderDrawLine(renderer, 0, WINDOW_HEIGHT / 30, WINDOW_WIDTH, WINDOW_HEIGHT / 30);
-	SDL_RenderDrawLine(renderer, 0, WINDOW_HEIGHT / 15, WINDOW_WIDTH, WINDOW_HEIGHT / 15);
+	int pipe_width = 5;
+	for(int i = 0; i < pipe_width; i++){
+		SDL_RenderDrawLine(renderer, 0, WINDOW_HEIGHT / 30 + i, WINDOW_WIDTH, WINDOW_HEIGHT / 30 + i);
+		SDL_RenderDrawLine(renderer, 0, WINDOW_HEIGHT / 15 + i, WINDOW_WIDTH, WINDOW_HEIGHT / 15 + i);
+	}
 	SDL_SetRenderDrawColor(renderer, DEFAULT_DRAW_COLOR);
 }
