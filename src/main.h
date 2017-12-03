@@ -7,7 +7,7 @@
 #define WINDOW_WIDTH 768
 #define WINDOW_HEIGHT 512
 #define VELOCITY 7
-#define JMP_VEL VELOCITY * 1.75
+#define JMP_VEL VELOCITY * 2.5
 #define UPD 60
 #define FPS 120
 #define DEFAULT_DRAW_COLOR 68, 202, 255, 0
