@@ -7,11 +7,10 @@ struct Player {
 	SDL_Rect frame, dstrect;
 	bool jumping;
 	Uint32 l_upd_time_hrz, l_upd_time_vrt, l_upd_time_jmp, 
-		   l_upd_time_anim_l, l_upd_time_anim_r;
-	int sheet_w, sheet_h, 
-		num_frames_vert, num_frames_horz, 
-		velocity, jmp_vel,
-		frame_l, frame_r;
+	       l_upd_time_anim_l, l_upd_time_anim_r;
+	int num_frames_vert, num_frames_horz, 
+	    velocity, jmp_vel,
+	    frame_l, frame_r;
 	void (*animate)(struct Player *self);
 };
 
