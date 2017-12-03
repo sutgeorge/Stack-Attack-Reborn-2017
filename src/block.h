@@ -8,7 +8,7 @@ struct Block {
 	SDL_Renderer *renderer;
 };
 
-void init_block(struct Block *block, SDL_Renderer *renderer);
+void init_block(struct Block *block, int x, int y, SDL_Renderer *renderer);
 
 void draw_block(struct Block *block);
 
