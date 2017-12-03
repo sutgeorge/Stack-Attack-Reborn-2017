@@ -26,7 +26,7 @@ static bool __init(SDL_Window **window, SDL_Renderer **renderer, struct Player *
 
 	SDL_SetRenderDrawColor(*renderer, DEFAULT_DRAW_COLOR);
 
-	init_player(player, *renderer);
+	init_player(player, renderer);
 	return true;
 }
 
@@ -79,10 +79,8 @@ static void __handle_input(struct Player *player, bool *loop) {
 static void __render(SDL_Renderer *renderer, struct Player *player, Uint32 *last_upd_time) {
 	if(SDL_GetTicks() - *last_upd_time > 1000/FPS) {
 		SDL_RenderClear(renderer);
-		player->animate(player);
+		draw_player(player);
 		draw_pipe(renderer);
-		SDL_RenderCopy(renderer, player->sprite_sheet, 
-						   &player->frame, &player->dstrect);
 		SDL_RenderPresent(renderer);
 		*last_upd_time = SDL_GetTicks();
 	}
