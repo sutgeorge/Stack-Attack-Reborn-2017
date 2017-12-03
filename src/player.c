@@ -36,25 +36,27 @@ void draw_player(struct Player *player) {
 }
 
 void player_block_collision(struct Player *player, struct Block *block) {
-	if(player->dstrect.y + player->dstrect.h >= block->dstrect.y &&
-	   player->dstrect.y + player->dstrect.h <= block->dstrect.y + block->dstrect.h) {
-		if(player->dstrect.x + player->dstrect.w >= block->dstrect.x &&
-		   player->dstrect.x + player->dstrect.w < block->dstrect.x + block->dstrect.w) {
+	int player_right = player->dstrect.x + player->dstrect.w - player->dstrect.w / 6,
+	    player_left = player->dstrect.x + player->dstrect.w / 6,
+	    player_top = player->dstrect.y,
+	    player_bottom = player->dstrect.y + player->dstrect.h,
+	    block_right = block->dstrect.x + block->dstrect.w,
+	    block_left = block->dstrect.x,
+	    block_top = block->dstrect.y,
+	    block_bottom = block->dstrect.y + block->dstrect.h; 
+
+	if(player_bottom >= block_top && player_bottom <= block_bottom){
+		if(player_right >= block_left && player_right < block_right)
 			block->dstrect.x++;
-		}
 				
-		if(player->dstrect.x <= block->dstrect.x + block->dstrect.w &&
-		   player->dstrect.x > block->dstrect.x) {
+		if(player_left <= block_right && player_left > block_left)
 			block->dstrect.x--;
-		}
 	}
 	/*
-	if(player->dstrect.y + player->dstrect.h >= block->dstrect.y &&
-	   player->dstrect.y + player->dstrect.h < block->dstrect.y)
+	if(player_bottom >= block_top && player_bottom < block_bottom)
 		//top
 	
-	if(player->dstrect.y <= block->dstrect.y + block->dstrect.h &&
-	   player->dstrect.y > block->dstrect.y)
+	if(player_top <= block_bottom && player_top > block_top)
 		//bottom
 	*/
 }
