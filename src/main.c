@@ -3,25 +3,25 @@
 #include "crane.h"
 #include "block.h"
 
-static bool __init(SDL_Window **window, SDL_Renderer **renderer, 
+static bool __init(SDL_Window **window, SDL_Renderer **renderer,
 	               struct Player *player, struct Crane *crane,
 	               struct Block *block) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_DisplayMode dm;
 	SDL_GetCurrentDisplayMode(0, &dm);
 	*window = SDL_CreateWindow("Stack Attack Reborn",
-						dm.w / 2 - WINDOW_WIDTH / 2, 
-						dm.h / 2 - WINDOW_HEIGHT / 2, 
-						WINDOW_WIDTH, WINDOW_HEIGHT, 
+						dm.w / 2 - WINDOW_WIDTH / 2,
+						dm.h / 2 - WINDOW_HEIGHT / 2,
+						WINDOW_WIDTH, WINDOW_HEIGHT,
 						0);
-	
+
 	if(*window == NULL) {
 		printf("Window creation failed!\n");
 		return false;
 	}
 
 	*renderer = SDL_CreateRenderer(*window, -1, 0);
-	
+
 	if(*renderer == NULL) {
 		printf("Renderer creation failed!\n");
 		return false;
@@ -44,24 +44,10 @@ static void __handle_input(struct Player *player, bool *loop) {
 			*loop = false;
 		}
 	}
-	
+
 	if(SDL_GetTicks() - player->l_upd_time_jmp > 500 && key_state[SDL_SCANCODE_W]) {
 		player->jumping = true;
 		player->l_upd_time_jmp = SDL_GetTicks();
-	}
-
-	if(player->jumping) {
-		if(player->dstrect.y + player->frame.h > WINDOW_HEIGHT) {
-			player->dstrect.y = WINDOW_HEIGHT - player->frame.h;
-			player->jmp_vel = JMP_VEL;
-			player->jumping = false;
-		}
-
-		if(SDL_GetTicks() - player->l_upd_time_vrt > 1000/UPD) {
-			player->dstrect.y -= player->jmp_vel;
-			player->jmp_vel -= 1;
-			player->l_upd_time_vrt = SDL_GetTicks();
-		}
 	}
 
 	if(key_state[SDL_SCANCODE_A]) {
@@ -81,7 +67,7 @@ static void __handle_input(struct Player *player, bool *loop) {
 	}
 }
 
-static void __render(SDL_Renderer *renderer, struct Player *player, 
+static void __render(SDL_Renderer *renderer, struct Player *player,
 	                 struct Crane *crane, struct Block *block,
 	                 Uint32 *last_upd_time) {
 	if(SDL_GetTicks() - *last_upd_time > 1000/FPS) {
@@ -103,22 +89,24 @@ static void __exit(SDL_Window *window) {
 int main() {
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
-	Uint32 frame_rate_upd_time = SDL_GetTicks();  
+	Uint32 frame_rate_upd_time = SDL_GetTicks();
 	struct Player player;
 	struct Crane crane;
 	struct Block block;
 
 	if(!__init(&window, &renderer, &player, &crane, &block))
 		return 0;
-	
+
 	bool running = true;
-	
-	while(running) {	
+
+	while(running) {
 		__handle_input(&player, &running);
-		player_block_collision(&player, &block);	
+		player_block_collision(&player, &block);
+		jump(&player);
+		fall(&player);
 		__render(renderer, &player, &crane, &block, &frame_rate_upd_time);
 	}
-	
+
 	__exit(window);
 	return 0;
 }

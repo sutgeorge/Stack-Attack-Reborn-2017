@@ -2,10 +2,10 @@
 
 void init_player(struct Player* player, SDL_Renderer *renderer) {
 	int frames_x = 2, frames_y = 3, sheet_w, sheet_h;
-	
+
 	player->renderer = renderer;
 	player->sprite_sheet = IMG_LoadTexture(renderer, "res/builder_sprite_sheet.png");
-	SDL_QueryTexture(player->sprite_sheet, NULL, NULL, &sheet_w, &sheet_h);	
+	SDL_QueryTexture(player->sprite_sheet, NULL, NULL, &sheet_w, &sheet_h);
 	player->num_frames_horz = frames_x;
 	player->num_frames_vert = frames_y;
 
@@ -15,23 +15,27 @@ void init_player(struct Player* player, SDL_Renderer *renderer) {
 	player->frame.y = player->frame.h * 2;
 
 	player->dstrect.x = WINDOW_WIDTH / 2 - player->frame.w / 2;
-	player->dstrect.y = WINDOW_HEIGHT - player->frame.h; 
+	player->dstrect.y = WINDOW_HEIGHT - player->frame.h;
 	player->dstrect.w = player->frame.w;
 	player->dstrect.h = player->frame.h;
 
 	player->velocity = VELOCITY;
 	player->jmp_vel = JMP_VEL;
-	player->l_upd_time_hrz = 
-	player->l_upd_time_vrt = 
+	player->l_upd_time_hrz =
+	player->l_upd_time_vrt =
 	player->l_upd_time_jmp = SDL_GetTicks();
 	player->jumping = false;
 
 	player->animate = stand;
+	player->ground_level = WINDOW_HEIGHT;
+	player->stepped_off = false;
+	player->on_block = false;
+	player->in_air = false;
 }
 
 void draw_player(struct Player *player) {
 	player->animate(player);
-	SDL_RenderCopy(player->renderer, player->sprite_sheet, 
+	SDL_RenderCopy(player->renderer, player->sprite_sheet,
 	               &player->frame, &player->dstrect);
 }
 
@@ -43,22 +47,64 @@ void player_block_collision(struct Player *player, struct Block *block) {
 	    block_right = block->dstrect.x + block->dstrect.w,
 	    block_left = block->dstrect.x,
 	    block_top = block->dstrect.y,
-	    block_bottom = block->dstrect.y + block->dstrect.h; 
+	    block_bottom = block->dstrect.y + block->dstrect.h,
+	    offset_side = 30;
 
-	if(player_bottom >= block_top && player_bottom <= block_bottom){
-		if(player_right >= block_left && player_right < block_right)
+	if(player_bottom >= block_top + offset_side && player_bottom <= block_bottom){
+		if(player_right >= block_left && player_right <= block_left + offset_side)
 			block->dstrect.x++;
-				
-		if(player_left <= block_right && player_left > block_left)
+
+		if(player_left <= block_right && player_left >= block_right - offset_side)
 			block->dstrect.x--;
 	}
-	/*
-	if(player_bottom >= block_top && player_bottom < block_bottom)
-		//top
-	
-	if(player_top <= block_bottom && player_top > block_top)
-		//bottom
-	*/
+
+	if(player_bottom >= block_top && player_bottom <= block_top + offset_side &&
+	   ((player_left >= block_left && player_left <= block_right) ||
+	   	(player_right >= block_left && player_right <= block_right))) {
+		player->ground_level = block_top;
+		if(!player->on_block)
+			printf("on:%d\n", player->ground_level);
+		player->on_block = true;
+	} else if(player->on_block) {
+		player->ground_level = WINDOW_HEIGHT;
+		player->stepped_off = true;
+		printf("off:%d\n", player->ground_level);
+		player->on_block = false;
+		player->in_air = true;
+	}
+}
+
+void jump(struct Player *player) {
+	if(player->jumping) {
+		if(player->dstrect.y + player->frame.h <= player->ground_level) {
+			if(SDL_GetTicks() - player->l_upd_time_vrt > 1000/UPD) {
+				player->l_upd_time_vrt = SDL_GetTicks();
+				player->dstrect.y -= player->jmp_vel;
+				player->jmp_vel -= 1;
+			}
+		} else {
+			player->dstrect.y = player->ground_level - player->frame.h;
+			player->jmp_vel = JMP_VEL;
+			player->jumping = false;
+		}
+	}
+}
+
+void fall(struct Player *player) {
+	if(player->in_air) {
+		if(player->dstrect.y + player->frame.h <= player->ground_level) {
+			if(SDL_GetTicks() - player->l_upd_time_vrt > 1000/UPD) {
+				player->l_upd_time_vrt = SDL_GetTicks();
+				player->dstrect.y += player->jmp_vel;
+				player->jmp_vel += 1;
+			}
+		} else {
+			player->dstrect.y = player->ground_level - player->frame.h;
+			player->jmp_vel = JMP_VEL;
+			player->jumping = false;
+			player->in_air = false;
+		}
+	}
 }
 
 void animate_left(struct Player *self) {
