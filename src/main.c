@@ -45,7 +45,7 @@ static void __handle_input(struct Player *player, bool *loop) {
 		}
 	}
 
-	if(SDL_GetTicks() - player->l_upd_time_jmp > 500 && key_state[SDL_SCANCODE_W]) {
+	if(SDL_GetTicks() - player->l_upd_time_jmp > 500 && !player->in_air && key_state[SDL_SCANCODE_W]) {
 		player->jumping = true;
 		player->l_upd_time_jmp = SDL_GetTicks();
 	}

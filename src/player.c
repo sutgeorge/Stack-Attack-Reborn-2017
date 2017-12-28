@@ -2,7 +2,7 @@
 
 void init_player(struct Player* player, SDL_Renderer *renderer) {
 	int frames_x = 2, frames_y = 3, sheet_w, sheet_h;
-
+    
 	player->renderer = renderer;
 	player->sprite_sheet = IMG_LoadTexture(renderer, "res/builder_sprite_sheet.png");
 	SDL_QueryTexture(player->sprite_sheet, NULL, NULL, &sheet_w, &sheet_h);
