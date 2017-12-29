@@ -104,6 +104,8 @@ int main() {
 		player_block_collision(&player, &block);
 		jump(&player);
 		fall(&player);
+                slide(&crane);
+                drop_crate(&crane);
 		__render(renderer, &player, &crane, &block, &frame_rate_upd_time);
 	}
 
