@@ -5,6 +5,9 @@
 
 /**
 	TODO: Implement a linked list of Block structs
+	      (Another idea would be to make an array of Block structs and
+      	       keep a variable which holds the number of blocks that have been
+       	       inserted into the array)
 	TODO: Draw every block in the linked list
 **/
 
