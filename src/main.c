@@ -8,7 +8,11 @@
 	      (Another idea would be to make an array of Block structs and
       	       keep a variable which holds the number of blocks that have been
        	       inserted into the array) ---> IN PROGRESS
-	TODO: Draw every block in the array
+	TODO: Draw every block in the array (THE ARRAY SHOULD BE AN ARRAY OF
+	      POINTERS TO BLOCK STRUCTS SO THAT YOU CAN APPLY DELETION FUNCTION
+      	      ON SPECIFIC INDEXES OF THE ARRAY!!!!!)
+	TODO: Make a function for deleting a block
+      	TODO: Make a function for removing a block from the array
 	TODO: Change <drop_crate> function name to <generate_crate>
 **/
 
