@@ -10,10 +10,10 @@ static bool __init(SDL_Window **window, SDL_Renderer **renderer,
 	SDL_DisplayMode dm;
 	SDL_GetCurrentDisplayMode(0, &dm);
 	*window = SDL_CreateWindow("Stack Attack Reborn",
-						dm.w / 2 - WINDOW_WIDTH / 2,
-						dm.h / 2 - WINDOW_HEIGHT / 2,
-						WINDOW_WIDTH, WINDOW_HEIGHT,
-						0);
+	dm.w / 2 - WINDOW_WIDTH / 2,	/// The position of the window
+	dm.h / 2 - WINDOW_HEIGHT / 2,
+	WINDOW_WIDTH, WINDOW_HEIGHT,	/// Width and height of the window
+	0);	/// WindowFlags are set to 0
 
 	if(*window == NULL) {
 		printf("Window creation failed!\n");

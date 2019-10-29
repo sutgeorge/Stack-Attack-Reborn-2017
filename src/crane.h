@@ -4,6 +4,7 @@
 #include "stdlib.h"
 #include "time.h"
 
+
 struct Crane {
 	SDL_Texture *texture;
 	SDL_Rect dstrect;
@@ -24,4 +25,4 @@ void slide(struct Crane *crane);
 
 void drop_crate(struct Crane *crane);
 
-#endif 
+#endif
