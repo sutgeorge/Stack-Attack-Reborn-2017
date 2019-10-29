@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo apt-get remove libsdl2-dev
+sudo apt-get remove libsdl2-image-dev
