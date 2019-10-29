@@ -1,4 +1,5 @@
 #include "crane.h"
+#include "block.h"
 
 void init_crane(struct Crane *crane, SDL_Renderer *renderer) {
 	/**
@@ -90,4 +91,9 @@ void drop_crate(struct Crane *crane) {
  	crane->target_x = (rand() % (WINDOW_WIDTH / BLOCK_SIZE))
  	printf("The x coordinate of the target point of the crane: ", crane->target_x)
          * **/
+
+	struct Block *block = malloc(sizeof(struct Block));
+        crane->target_x = rand() % WINDOW_WIDTH;
+        printf("The x coordinate of the target point of the crane: %d\n", crane->target_x);
+	free(block);
 }
