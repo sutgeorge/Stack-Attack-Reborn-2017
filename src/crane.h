@@ -3,7 +3,7 @@
 #include "main.h"
 #include "stdlib.h"
 #include "time.h"
-
+#include "block.h"
 
 struct Crane {
 	SDL_Texture *texture;
@@ -12,6 +12,7 @@ struct Crane {
         Uint32 l_upd_time_vrt, last_slide_time;
         bool sliding;
         int target_x;
+	struct Block *current_block;
         enum direction{LEFT, RIGHT} dir;
 };
 

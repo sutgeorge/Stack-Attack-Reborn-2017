@@ -1,5 +1,4 @@
 #include "crane.h"
-#include "block.h"
 
 void init_crane(struct Crane *crane, SDL_Renderer *renderer) {
 	/**
@@ -21,6 +20,8 @@ void init_crane(struct Crane *crane, SDL_Renderer *renderer) {
         crane->l_upd_time_vrt =
         crane->last_slide_time = SDL_GetTicks();
         crane->sliding = false;
+
+	crane->current_block = NULL;
 }
 
 void draw_pipe(SDL_Renderer *renderer) {
@@ -94,6 +95,9 @@ void drop_crate(struct Crane *crane) {
 
 	struct Block *block = malloc(sizeof(struct Block));
         crane->target_x = rand() % WINDOW_WIDTH;
+	crane->current_block = block;
+	block->falling = true;
+
         printf("The x coordinate of the target point of the crane: %d\n", crane->target_x);
 	free(block);
 }

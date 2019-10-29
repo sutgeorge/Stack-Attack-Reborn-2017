@@ -3,6 +3,11 @@
 #include "crane.h"
 #include "block.h"
 
+/**
+	TODO: Implement a linked list of Block structs
+	TODO: Draw every block in the linked list
+**/
+
 static bool __init(SDL_Window **window, SDL_Renderer **renderer,
 	               struct Player *player, struct Crane *crane,
 	               struct Block *block) {
@@ -86,7 +91,19 @@ static void __exit(SDL_Window *window) {
 	SDL_Quit();
 }
 
+static void __test() {
+
+	/**
+	Some stupid function for debugging
+	(I've used it to find out the size in bytes of a Block struct)
+	**/
+	printf("-------------------------------------------------------\n");
+	printf("The size of a Block structure: %d\n", sizeof(struct Block));
+	printf("-------------------------------------------------------\n");
+}
+
 int main() {
+	__test();
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
 	Uint32 frame_rate_upd_time = SDL_GetTicks();
