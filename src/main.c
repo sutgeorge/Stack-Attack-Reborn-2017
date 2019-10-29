@@ -7,13 +7,13 @@
 	TODO: Implement a linked list of Block structs
 	      (Another idea would be to make an array of Block structs and
       	       keep a variable which holds the number of blocks that have been
-       	       inserted into the array)
-	TODO: Draw every block in the linked list
+       	       inserted into the array) ---> IN PROGRESS
+	TODO: Draw every block in the array
 **/
 
 static bool __init(SDL_Window **window, SDL_Renderer **renderer,
 	               struct Player *player, struct Crane *crane,
-	               struct Block *block) {
+	               struct Block *block, struct Block blocks[]) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_DisplayMode dm;
 	SDL_GetCurrentDisplayMode(0, &dm);
@@ -113,8 +113,10 @@ int main() {
 	struct Player player;
 	struct Crane crane;
 	struct Block block;
+	struct Block blocks[200];
+	int number_of_blocks = 0;
 
-	if(!__init(&window, &renderer, &player, &crane, &block))
+	if(!__init(&window, &renderer, &player, &crane, &block, blocks))
 		return 0;
 
 	bool running = true;
