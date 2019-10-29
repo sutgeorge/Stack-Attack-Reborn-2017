@@ -9,6 +9,7 @@
       	       keep a variable which holds the number of blocks that have been
        	       inserted into the array) ---> IN PROGRESS
 	TODO: Draw every block in the array
+	TODO: Change <drop_crate> function name to <generate_crate>
 **/
 
 static bool __init(SDL_Window **window, SDL_Renderer **renderer,
@@ -127,7 +128,7 @@ int main() {
 		jump(&player);
 		fall(&player);
                 slide(&crane);
-                drop_crate(&crane);
+                drop_crate(&crane, blocks, &number_of_blocks);
 		__render(renderer, &player, &crane, &block, &frame_rate_upd_time);
 	}
 

@@ -62,7 +62,7 @@ void slide(struct Crane *crane) {
         }
 }
 
-void drop_crate(struct Crane *crane) {
+void drop_crate(struct Crane *crane, struct Block blocks[], int *number_of_blocks) {
 	/**
 	Drops the crate that is being held by the crane.
 	**/
@@ -93,8 +93,9 @@ void drop_crate(struct Crane *crane) {
  	printf("The x coordinate of the target point of the crane: ", crane->target_x)
          * **/
 
-	struct Block *block = malloc(sizeof(struct Block));
-        crane->target_x = rand() % WINDOW_WIDTH;
+	crane->target_x = rand() % WINDOW_WIDTH;
+	struct Block *block = create_block(crane->dstrect.x, crane->dstrect.y, crane->renderer);
+	add_block_to_block_array(block, blocks, number_of_blocks);
 	crane->current_block = block;
 	block->falling = true;
 
