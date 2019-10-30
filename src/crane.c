@@ -55,16 +55,27 @@ void slide(struct Crane *crane) {
 	/// more than 1000/UPD milliseconds ago.
         if(SDL_GetTicks() - crane->l_upd_time_vrt > 1000/UPD){
                 crane->l_upd_time_vrt = SDL_GetTicks();
-                if(crane->dir == RIGHT)
+                if(crane->dir == RIGHT) {
                         crane->dstrect.x += VELOCITY;
-                else
+			if (crane->current_block->dstrect.x > crane->target_x) {
+				crane->current_block->dstrect.x = crane->target_x;
+				crane->current_block->falling = true;
+			}
+                } else {
                         crane->dstrect.x -= VELOCITY;
+			if (crane->current_block->dstrect.x < crane->target_x) {
+				crane->current_block->dstrect.x = crane->target_x;
+				crane->current_block->falling = true;
+			}
+		}
 		/// Sets the coordinates of the current block being held by the
 		/// crane to be equal to the crane coordinates.
 		/// The crate will be drawn between the crane's claws.
-		crane->current_block->dstrect.x = crane->dstrect.x + (crane->dstrect.w / 2) - (crane->current_block->dstrect.w / 2);
-		crane->current_block->dstrect.y = crane->dstrect.y + crane->dstrect.h - (crane->current_block->dstrect.h / 2);
-        }
+		if (crane->current_block->falling != true) {
+			crane->current_block->dstrect.x = crane->dstrect.x + (crane->dstrect.w / 2) - (crane->current_block->dstrect.w / 2);
+			crane->current_block->dstrect.y = crane->dstrect.y + crane->dstrect.h - (crane->current_block->dstrect.h / 2);
+		}
+	}
 }
 
 void generate_crate(struct Crane *crane, struct Block *blocks[], int *number_of_blocks) {
@@ -104,7 +115,7 @@ void generate_crate(struct Crane *crane, struct Block *blocks[], int *number_of_
 	add_block_to_block_array(block, blocks, number_of_blocks);
 	printf("Number of blocks: %d\n", *number_of_blocks);
 	crane->current_block = block;
-	block->falling = true; /// CAREFUL, YOU HAVE ALREADY ADDED THE BLOCK TO THE ARRAY!!!!
+	block->falling = false; /// CAREFUL, YOU HAVE ALREADY ADDED THE BLOCK TO THE ARRAY!!!!
 
         printf("The x coordinate of the target point of the crane: %d\n", crane->target_x);
 }
