@@ -13,7 +13,7 @@
       	      ON SPECIFIC INDEXES OF THE ARRAY!!!!!) ---> DONE
 	TODO: Make a function for deleting a block ---> DONE
       	TODO: Make a function for removing a block from the array ---> DONE
-	TODO: Change <drop_crate> function name to <generate_crate>
+	TODO: Change <drop_crate> function name to <generate_crate> ---> DONE
 	TODO: Improve function specifications.
 **/
 
@@ -170,7 +170,7 @@ int main() {
 		jump(&player);
 		fall(&player);
                 slide(&crane);
-                drop_crate(&crane, blocks, &number_of_blocks);
+                generate_crate(&crane, blocks, &number_of_blocks);
 		__render(renderer, &player, &crane, &block, blocks, &number_of_blocks, &frame_rate_upd_time);
 	}
 

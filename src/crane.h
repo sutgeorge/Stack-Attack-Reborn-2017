@@ -24,6 +24,6 @@ void init_crane(struct Crane *crane, SDL_Renderer *renderer);
 
 void slide(struct Crane *crane);
 
-void drop_crate(struct Crane *crane, struct Block *blocks[], int *number_of_blocks);
+void generate_crate(struct Crane *crane, struct Block *blocks[], int *number_of_blocks);
 
 #endif
