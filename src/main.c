@@ -18,7 +18,7 @@
 
 static bool __init(SDL_Window **window, SDL_Renderer **renderer,
 	               struct Player *player, struct Crane *crane,
-	               struct Block *block, struct Block blocks[]) {
+	               struct Block *block, struct Block *blocks[]) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_DisplayMode dm;
 	SDL_GetCurrentDisplayMode(0, &dm);
@@ -118,7 +118,7 @@ int main() {
 	struct Player player;
 	struct Crane crane;
 	struct Block block;
-	struct Block blocks[200];
+	struct Block *blocks[200];
 	int number_of_blocks = 0;
 
 	if(!__init(&window, &renderer, &player, &crane, &block, blocks))

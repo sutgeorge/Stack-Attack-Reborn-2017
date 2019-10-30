@@ -28,16 +28,16 @@ struct Block *create_block(int x, int y, SDL_Renderer *renderer) {
 	return block;
 }
 
-void add_block_to_block_array(struct Block *block, struct Block blocks[], int *number_of_blocks) {
+void add_block_to_block_array(struct Block *block, struct Block *blocks[], int *number_of_blocks) {
 	/**
 	Adds the block given in the first parameter to the array of blocks "blocks[]"
 	**/
 
-	if (number_of_blocks < 0)
+	if (*number_of_blocks < 0)
 		return;
 	/// ... for avoiding undefined behaviour in case the number_of_blocks
 	/// parameter will be negative....
 
-	blocks[*number_of_blocks] = *block;
+	blocks[*number_of_blocks] = block;
 	*number_of_blocks++;
 }

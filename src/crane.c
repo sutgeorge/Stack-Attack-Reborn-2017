@@ -62,7 +62,7 @@ void slide(struct Crane *crane) {
         }
 }
 
-void drop_crate(struct Crane *crane, struct Block blocks[], int *number_of_blocks) {
+void drop_crate(struct Crane *crane, struct Block *blocks[], int *number_of_blocks) {
 	/**
 	Drops the crate that is being held by the crane.
 	**/
