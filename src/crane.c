@@ -59,6 +59,11 @@ void slide(struct Crane *crane) {
                         crane->dstrect.x += VELOCITY;
                 else
                         crane->dstrect.x -= VELOCITY;
+		/// Sets the coordinates of the current block being held by the
+		/// crane to be equal to the crane coordinates.
+		/// The crate will be drawn between the crane's claws.
+		crane->current_block->dstrect.x = crane->dstrect.x + (crane->dstrect.w / 2) - (crane->current_block->dstrect.w / 2);
+		crane->current_block->dstrect.y = crane->dstrect.y + crane->dstrect.h - (crane->current_block->dstrect.h / 2);
         }
 }
 
