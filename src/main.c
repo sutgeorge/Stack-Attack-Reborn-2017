@@ -7,10 +7,10 @@
 	TODO: Implement a linked list of Block structs
 	      (Another idea would be to make an array of Block structs and
       	       keep a variable which holds the number of blocks that have been
-       	       inserted into the array) ---> IN PROGRESS
+       	       inserted into the array) ---> DONE
 	TODO: Draw every block in the array (THE ARRAY SHOULD BE AN ARRAY OF
 	      POINTERS TO BLOCK STRUCTS SO THAT YOU CAN APPLY DELETION FUNCTION
-      	      ON SPECIFIC INDEXES OF THE ARRAY!!!!!)
+      	      ON SPECIFIC INDEXES OF THE ARRAY!!!!!) ---> IN PROGRESS
 	TODO: Make a function for deleting a block
       	TODO: Make a function for removing a block from the array
 	TODO: Change <drop_crate> function name to <generate_crate>
@@ -80,15 +80,23 @@ static void __handle_input(struct Player *player, bool *loop) {
 	}
 }
 
+static void __draw_blocks(struct Block *blocks[], int *number_of_blocks) {
+	for (int i = 0; i < *number_of_blocks; i++) {
+		draw_block(blocks[i]);
+	}
+}
+
 static void __render(SDL_Renderer *renderer, struct Player *player,
 	                 struct Crane *crane, struct Block *block,
-	                 Uint32 *last_upd_time) {
+	                 struct Block *blocks[], int *number_of_blocks,
+			 Uint32 *last_upd_time) {
 	if(SDL_GetTicks() - *last_upd_time > 1000/FPS) {
 		SDL_RenderClear(renderer);
 		draw_player(player);
 		draw_pipe(renderer);
 		draw_crane(crane);
 		draw_block(block);
+		__draw_blocks(blocks, number_of_blocks);
 		SDL_RenderPresent(renderer);
 		*last_upd_time = SDL_GetTicks();
 	}
@@ -105,8 +113,11 @@ static void __delete_blocks_from_array(struct Block *blocks[], int *number_of_bl
 	**/
 
 	while (*number_of_blocks > 0) {
-		remove_block_from_array(*number_of_blocks - 1, blocks, number_of_blocks);
+		remove_block_from_array((*number_of_blocks)-1, blocks, number_of_blocks);
+		printf("Removing blocks!\n");
 	}
+	
+	printf("Blocks removed!\n");
 }
 
 static void __test() {
@@ -143,10 +154,12 @@ int main() {
 		fall(&player);
                 slide(&crane);
                 drop_crate(&crane, blocks, &number_of_blocks);
-		__render(renderer, &player, &crane, &block, &frame_rate_upd_time);
+		__render(renderer, &player, &crane, &block, blocks, &number_of_blocks, &frame_rate_upd_time);
 	}
 
+	printf("Exiting loop!\n");
 	__delete_blocks_from_array(blocks, &number_of_blocks);
+	printf("Blocks deleted!\n");
 	__exit(window);
 	return 0;
 }

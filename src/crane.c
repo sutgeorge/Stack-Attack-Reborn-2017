@@ -94,8 +94,10 @@ void drop_crate(struct Crane *crane, struct Block *blocks[], int *number_of_bloc
          * **/
 
 	crane->target_x = rand() % WINDOW_WIDTH;
-	struct Block *block = create_block(crane->dstrect.x, crane->dstrect.y, crane->renderer);
+	struct Block *block = create_block();
+	init_block(block, crane->target_x, WINDOW_HEIGHT - 64, crane->renderer);
 	add_block_to_block_array(block, blocks, number_of_blocks);
+	printf("Number of blocks: %d\n", *number_of_blocks);
 	crane->current_block = block;
 	block->falling = true; /// CAREFUL, YOU HAVE ALREADY ADDED THE BLOCK TO THE ARRAY!!!!
 

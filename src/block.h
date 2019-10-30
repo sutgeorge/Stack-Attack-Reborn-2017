@@ -14,7 +14,7 @@ void init_block(struct Block *block, int x, int y, SDL_Renderer *renderer);
 
 void draw_block(struct Block *block);
 
-struct Block *create_block(int x, int y, SDL_Renderer *renderer);
+struct Block *create_block();
 
 void delete_block(struct Block *block);
 

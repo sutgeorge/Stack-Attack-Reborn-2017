@@ -18,13 +18,12 @@ void draw_block(struct Block *block) {
 	SDL_RenderCopy(block->renderer, block->texture, NULL, &block->dstrect);
 }
 
-struct Block *create_block(int x, int y, SDL_Renderer *renderer) {
+struct Block *create_block() {
 	/**
 	Allocates memory for a Block structure and returns the pointer to
 	this memory location.
 	**/
 	struct Block *block = malloc(sizeof(struct Block));
-        init_block(block, x, y, renderer);
 	return block;
 }
 
@@ -44,11 +43,11 @@ void remove_block_from_array(int block_index, struct Block *blocks[], int *numbe
 	blocks[block_index] = NULL;
 
 	/// This moves all the blocks in the array with one position to the left
-	for (int i = block_index + 1; i < *number_of_blocks; i++) {
+	for (int i = (block_index + 1); i < (*number_of_blocks); i++) {
 		blocks[i - 1] = blocks[i];
 	}
 
-	*number_of_blocks--;
+	(*number_of_blocks)--;
 }
 
 void add_block_to_block_array(struct Block *block, struct Block *blocks[], int *number_of_blocks) {
@@ -62,5 +61,5 @@ void add_block_to_block_array(struct Block *block, struct Block *blocks[], int *
 	/// parameter will be negative....
 
 	blocks[*number_of_blocks] = block;
-	*number_of_blocks++;
+	(*number_of_blocks)++;
 }
