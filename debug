@@ -1,3 +1,4 @@
 #!/bin/bash
 gcc src/main.c src/player.c src/crane.c src/block.c -lSDL2 -lSDL2_image -g
 gdb ./a.out
+rm a.out
