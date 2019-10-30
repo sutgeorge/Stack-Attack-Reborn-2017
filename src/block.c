@@ -1,6 +1,10 @@
 #include "block.h"
 
 void init_block(struct Block *block, int x, int y, SDL_Renderer *renderer) {
+	/**
+	Initializes a block with the given values.
+	**/
+
 	int texture_w, texture_h;
 
 	block->renderer = renderer;

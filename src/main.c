@@ -10,15 +10,21 @@
        	       inserted into the array) ---> DONE
 	TODO: Draw every block in the array (THE ARRAY SHOULD BE AN ARRAY OF
 	      POINTERS TO BLOCK STRUCTS SO THAT YOU CAN APPLY DELETION FUNCTION
-      	      ON SPECIFIC INDEXES OF THE ARRAY!!!!!) ---> IN PROGRESS
-	TODO: Make a function for deleting a block
-      	TODO: Make a function for removing a block from the array
+      	      ON SPECIFIC INDEXES OF THE ARRAY!!!!!) ---> DONE
+	TODO: Make a function for deleting a block ---> DONE
+      	TODO: Make a function for removing a block from the array ---> DONE
 	TODO: Change <drop_crate> function name to <generate_crate>
+	TODO: Improve function specifications.
 **/
 
 static bool __init(SDL_Window **window, SDL_Renderer **renderer,
 	               struct Player *player, struct Crane *crane,
 	               struct Block *block, struct Block *blocks[]) {
+	/**
+	Initializes SDL, creates a window, a renderer and all the other objects
+	that are needed.
+	**/
+
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_DisplayMode dm;
 	SDL_GetCurrentDisplayMode(0, &dm);
@@ -49,6 +55,10 @@ static bool __init(SDL_Window **window, SDL_Renderer **renderer,
 }
 
 static void __handle_input(struct Player *player, bool *loop) {
+	/**
+	Handles all the events.
+	**/
+
 	const Uint8 *key_state = SDL_GetKeyboardState(NULL);
 	SDL_Event event;
 
@@ -81,7 +91,10 @@ static void __handle_input(struct Player *player, bool *loop) {
 }
 
 static void __draw_blocks(struct Block *blocks[], int *number_of_blocks) {
-	for (int i = 0; i < *number_of_blocks; i++) {
+	/**
+	Draws all the blocks in the array of blocks.
+	**/
+	for (int i = 0; i < (*number_of_blocks); i++) {
 		draw_block(blocks[i]);
 	}
 }
@@ -90,6 +103,10 @@ static void __render(SDL_Renderer *renderer, struct Player *player,
 	                 struct Crane *crane, struct Block *block,
 	                 struct Block *blocks[], int *number_of_blocks,
 			 Uint32 *last_upd_time) {
+	/**
+	Renders every object on the screen.
+	**/
+
 	if(SDL_GetTicks() - *last_upd_time > 1000/FPS) {
 		SDL_RenderClear(renderer);
 		draw_player(player);
@@ -116,7 +133,7 @@ static void __delete_blocks_from_array(struct Block *blocks[], int *number_of_bl
 		remove_block_from_array((*number_of_blocks)-1, blocks, number_of_blocks);
 		printf("Removing blocks!\n");
 	}
-	
+
 	printf("Blocks removed!\n");
 }
 
@@ -157,9 +174,7 @@ int main() {
 		__render(renderer, &player, &crane, &block, blocks, &number_of_blocks, &frame_rate_upd_time);
 	}
 
-	printf("Exiting loop!\n");
 	__delete_blocks_from_array(blocks, &number_of_blocks);
-	printf("Blocks deleted!\n");
 	__exit(window);
 	return 0;
 }
