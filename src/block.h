@@ -16,6 +16,10 @@ void draw_block(struct Block *block);
 
 struct Block *create_block(int x, int y, SDL_Renderer *renderer);
 
+void delete_block(struct Block *block);
+
+void remove_block_from_array(int block_index, struct Block *blocks[], int *number_of_blocks);
+
 void add_block_to_block_array(struct Block *block, struct Block *blocks[], int *number_of_blocks);
 
 #endif

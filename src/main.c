@@ -99,6 +99,16 @@ static void __exit(SDL_Window *window) {
 	SDL_Quit();
 }
 
+static void __delete_blocks_from_array(struct Block *blocks[], int *number_of_blocks) {
+	/**
+	Deletes all blocks from the array of blocks.
+	**/
+
+	while (*number_of_blocks > 0) {
+		remove_block_from_array(*number_of_blocks - 1, blocks, number_of_blocks);
+	}
+}
+
 static void __test() {
 
 	/**
@@ -136,6 +146,7 @@ int main() {
 		__render(renderer, &player, &crane, &block, &frame_rate_upd_time);
 	}
 
+	__delete_blocks_from_array(blocks, &number_of_blocks);
 	__exit(window);
 	return 0;
 }

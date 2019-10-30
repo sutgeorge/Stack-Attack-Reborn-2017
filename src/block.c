@@ -28,6 +28,29 @@ struct Block *create_block(int x, int y, SDL_Renderer *renderer) {
 	return block;
 }
 
+void delete_block(struct Block *block) {
+	/**
+	Deallocates the memory allocated for the Block struct.
+	**/
+	free(block);
+}
+
+void remove_block_from_array(int block_index, struct Block *blocks[], int *number_of_blocks) {
+	/**
+	Removes the block with the index "block_index" from the array "blocks"
+	**/
+
+	delete_block(blocks[block_index]);
+	blocks[block_index] = NULL;
+
+	/// This moves all the blocks in the array with one position to the left
+	for (int i = block_index + 1; i < *number_of_blocks; i++) {
+		blocks[i - 1] = blocks[i];
+	}
+
+	*number_of_blocks--;
+}
+
 void add_block_to_block_array(struct Block *block, struct Block *blocks[], int *number_of_blocks) {
 	/**
 	Adds the block given in the first parameter to the array of blocks "blocks[]"

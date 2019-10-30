@@ -100,5 +100,4 @@ void drop_crate(struct Crane *crane, struct Block *blocks[], int *number_of_bloc
 	block->falling = true; /// CAREFUL, YOU HAVE ALREADY ADDED THE BLOCK TO THE ARRAY!!!!
 
         printf("The x coordinate of the target point of the crane: %d\n", crane->target_x);
-	free(block);
 }
